@@ -50,7 +50,7 @@ This project involved overcoming several significant real-world development chal
 
 ```bash
 # Clone and navigate to the backend folder
-git clone [https://github.com/YOUR_USERNAME/gemini-intelligent-chat-hub.git](https://github.com/YOUR_USERNAME/gemini-intelligent-chat-hub.git)
+git clone https://github.com/krithigau/gemini-intelligent-chat-hub.git
 cd gemini-intelligent-chat-hub/gemini-hub-backend
 
 # 1. Create and activate a virtual environment
