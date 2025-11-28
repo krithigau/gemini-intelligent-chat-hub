@@ -129,7 +129,7 @@ async def save_chat(conversation: Conversation, db: Session = Depends(get_db)):
     print(f"Saved chat metadata to SQL DB with ID {sql_db_id}")
     # -----------------------------------------------
 
-    # --- Part 2: NEW - Chunk, Embed, and Save to Vector DB ---
+    # --- Chunk, Embed, and Save to Vector DB ---
     try:
         chunks = []
         chunk_ids = []
@@ -186,7 +186,7 @@ async def save_chat(conversation: Conversation, db: Session = Depends(get_db)):
         "database_id": sql_db_id
     }
 
-# --- Keep the old search endpoint for now, we'll replace it later ---
+# --- Keeping the old search endpoint for now, we'll replace it later ---
 @app.get("/api/search")
 async def search_chats(q: str, db: Session = Depends(get_db)):
     print(f"--- SERVER RECEIVED A (Basic) SEARCH! Query: {q} ---")
