@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Gemini Chat Hub</title>
+    <style>
+        body {
+            width: 360px;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            background-color: #f4f7f9; /* Light tech gray background */
+            color: #333;
+        }
+
+        /* --- HEADER (Tech Gradient) --- */
+        .header {
+            /* Blue to Purple gradient */
+            background: linear-gradient(135deg, #2b5876 0%, #4e4376 100%);
+            color: white;
+            padding: 15px 20px;
+            box-shadow: 0 4px 15px rgba(43, 88, 118, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* Rounded bottom corners for a modern look */
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            position: relative; /* Needed for the robot to pop up from */
+            overflow: hidden;   /* Hides the robot when it's down */
+            height: 30px;       /* Fixed height for the header area */
+        }
+        
+        h3 { 
+            margin: 0; 
+            font-size: 18px; 
+            font-weight: 600; 
+            display: flex; 
+            align-items: center; 
+            gap: 12px;
+            z-index: 2; /* Text stays on top of robot */
+            position: relative;
+        }
+
+        /* --- THE POPPING ROBOT (Pure CSS!) --- */
+        .robo-container {
+            position: absolute;
+            bottom: -30px; /* Start hidden below the header line */
+            left: 20px;    /* Position where the icon would be */
+            width: 30px;
+            height: 30px;
+            animation: popUp 1s ease-out forwards;
+            animation-delay: 0.2s; /* Wait a split second before popping */
+        }
+
+        .robo-head {
+            width: 100%;
+            height: 80%;
+            background: #e0e7ff; /* Light metallic blue */
+            border-radius: 6px 6px 2px 2px;
+            border: 2px solid #a5b4fc;
+            position: relative;
+            /* Little antenna */
+            &::before {
+                content: '';
+                position: absolute;
+                top: -6px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 2px;
+                height: 6px;
+                background: #a5b4fc;
+            }
+            /* Antenna ball */
+            &::after {
+                content: '';
+                position: absolute;
+                top: -9px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 6px;
+                height: 6px;
+                background: #6366f1; /* Glowing purple/blue */
+                border-radius: 50%;
+                box-shadow: 0 0 8px #6366f1; /* Glow effect */
+            }
+        }
+
+        .robo-eyes {
+            position: absolute;
+            top: 8px;
+            left: 4px;
+            right: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .eye {
+            width: 8px;
+            height: 5px;
+            background: #6366f1; /* Glowing eyes */
+            border-radius: 2px;
+            animation: blink 3s infinite;
+            box-shadow: 0 0 5px #6366f1; /* Glow effect */
+        }
+
+        @keyframes popUp {
+            0% { bottom: -30px; }
+            70% { bottom: 8px; }  /* Pop up a bit too high */
+            100% { bottom: 5px; } /* Settle into place */
+        }
+
+        @keyframes blink {
+            0%, 90%, 100% { height: 5px; }
+            95% { height: 1px; } /* Quick blink */
+        }
+
+
+        /* --- MAIN CONTENT STYLES --- */
+        .content { padding: 18px; }
+
+        /* Search Bar */
+        input {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px; /* Slightly squarer corners for tech feel */
+            box-sizing: border-box; 
+            font-size: 14px;
+            transition: all 0.2s;
+            outline: none;
+        }
+        input:focus { 
+            border-color: #6366f1; /* Tech purple/blue focus */
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        /* View Containers */
+        .view-container { display: none; animation: slideUp 0.2s ease-out; }
+        .view-container.active { display: block; }
+
+        .section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #64748b;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        /* Collection Tags (Tech Chips) */
+        #collections-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .collection-tag {
+            background-color: white;
+            color: #4f46e5;
+            padding: 8px 14px;
+            border-radius: 6px; /* Tech chip shape */
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid #e0e7ff;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            transition: all 0.15s;
+        }
+        .collection-tag:hover {
+            background-color: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+        }
+
+        /* Chat Links */
+        .chat-link {
+            display: block;
+            padding: 10px 14px;
+            background: white;
+            margin-bottom: 8px;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #334155;
+            font-size: 14px;
+            border: 1px solid #f1f5f9;
+            transition: all 0.15s;
+            border-left: 3px solid transparent;
+        }
+        .chat-link:hover {
+            border-color: #e2e8f0;
+            border-left-color: #6366f1;
+            background-color: #f8fafc;
+        }
+
+        /* AI Answer Box */
+        .ai-answer {
+            background: white;
+            padding: 18px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #1e293b;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-top: 3px solid #6366f1; /* Top accent bar */
+        }
+        
+        .sources-section { margin-top: 15px; padding-top: 12px; border-top: 1px solid #f1f5f9; }
+        .source-link a { color: #4f46e5; text-decoration: none; font-weight: 500; }
+        .source-link a:hover { text-decoration: underline; }
+
+        /* Back Button */
+        .back-btn {
+            cursor: pointer;
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 12px;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+        .back-btn:hover { color: #0f172a; }
+        .back-btn::before { content: '←'; margin-right: 6px; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="robo-container">
+            <div class="robo-head">
+                <div class="robo-eyes">
+                    <div class="eye"></div>
+                    <div class="eye"></div>
+                </div>
+            </div>
+        </div>
+        <h3 style="padding-left: 40px;">Gemini Hub</h3>
+    </div>
+    
+    <div class="content">
+        <input type="text" id="search-bar" placeholder="Ask your history... (Press Enter)">
+        
+        <div id="collections-view" class="view-container active">
+            <div class="section-title">Your Collections</div>
+            <div id="collections-list">Loading...</div>
+        </div>
+
+        <div id="chats-view" class="view-container">
+            <div class="back-btn" id="back-to-collections">Collections</div>
+            <h4 id="current-collection-name" style="margin:0 0 15px 0; color:#4f46e5; font-size:16px;"></h4>
+            <div id="chats-list"></div>
+        </div>
+
+        <div id="search-view" class="view-container">
+            <div class="back-btn" id="back-from-search">Back</div>
+            <div id="search-results"></div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>

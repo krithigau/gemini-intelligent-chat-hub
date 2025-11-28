@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Gemini Intelligent Chat Hub",
+  "version": "0.1.0",
+  "description": "Organize your Gemini chats with collections, tags, and semantic search.",
+  "permissions": [
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://gemini.google.com/*",
+    "http://127.0.0.1/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["https://gemini.google.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+
+  "action": {
+    "default_popup": "popup.html"
+  }
+}
