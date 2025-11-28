@@ -1,4 +1,3 @@
-// --- Helper function to update button appearance ---
 
 function updateButtonAppearance(button, isSaved) {
     if (isSaved) {
@@ -15,7 +14,7 @@ function updateButtonAppearance(button, isSaved) {
     }
 }
 
-// --- MAIN LOGIC ---
+// MAIN LOGIC
 function addSaveButtons() {
     // 1. Find the chat items (UPDATED SELECTOR SAFETY)
     // We look for the specific class we identified earlier.
@@ -35,7 +34,7 @@ function addSaveButtons() {
         saveButton.className = 'save-chat-button';
         saveButton.title = 'Save Chat';
         
-        // Styling (You can move this to a CSS file later if you want)
+        // Styling (Can move this to a CSS file later if needed)
         Object.assign(saveButton.style, {
             marginLeft: '10px',
             padding: '2px 6px',
@@ -107,7 +106,7 @@ function addSaveButtons() {
     });
 }
 
-// --- SCAPER FUNCTION ---
+// SCAPER FUNCTION
 function scrapeCurrentChat() {
     const messageElements = document.querySelectorAll('p.query-text-line, div.message-content');
     if (messageElements.length === 0) return null;
@@ -124,7 +123,7 @@ function scrapeCurrentChat() {
     };
 }
 
-// --- ROBUST OBSERVER (The Fix) ---
+// ROBUST OBSERVER
 let debounceTimer = null;
 
 const observer = new MutationObserver((mutations) => {
