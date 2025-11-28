@@ -9,12 +9,12 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 # ----------------------------------------
 
-# --- NEW: Import AI Libraries ---
+# Import AI Libraries
 import chromadb
 from sentence_transformers import SentenceTransformer
 # --------------------------------
 
-# --- Database Setup  ---
+#===== Database Setup ===
 DATABASE_URL = "sqlite:///./chats.db"
 engine = create_engine(
     DATABASE_URL, connect_args={"check_same_thread": False}
@@ -48,11 +48,11 @@ class Chat(Base):
     collection = Column(String, index=True, default="Uncategorized")
 # ----------------------------------------------------
 
-# --- Create SQL tables (Keep this) ---
+# --- Create SQL tables ---
 Base.metadata.create_all(bind=engine)
 # ---------------------------------------
 
-# --- NEW: Initialize AI Components ---
+# ---Initializing AI Components ---
 # 1. Load the embedding model (this might download the model the first time)
 #    'all-MiniLM-L6-v2' is a good, small, fast model.
 print("Loading embedding model...")
@@ -85,7 +85,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Database Session Dependency (Keep this)
+# Database Session Dependency
 def get_db():
     db = SessionLocal()
     try:
@@ -99,7 +99,7 @@ async def read_root():
     return {"Hello": "World"}
 
 
-# --- UPDATED: Save Chat Endpoint (Now with AI!) ---
+# ---  Save Chat Endpoint with AI! ---
 @app.post("/api/save_chat")
 async def save_chat(conversation: Conversation, db: Session = Depends(get_db)):
     print("--- SERVER RECEIVED A CHAT! ---")
@@ -194,7 +194,7 @@ async def search_chats(q: str, db: Session = Depends(get_db)):
     results = db.query(Chat).filter(Chat.title.ilike(search_term)).limit(10).all()
     print(f"Found {len(results)} results.")
     return results
-# --- ADD THIS NEW ENDPOINT AT THE END OF main.py ---
+
 
 @app.get("/api/chat_status")
 async def get_chat_status(url: str, db: Session = Depends(get_db)):
@@ -210,12 +210,11 @@ async def get_chat_status(url: str, db: Session = Depends(get_db)):
     else:
         print("Status: Not Found")
         return {"exists": False}
-# --- ADD IMPORTS AT THE TOP of main.py ---
+        
 import google.generativeai as genai
 import os
 from dotenv import load_dotenv
 
-# --- ADD NEAR INITIALIZATION SECTION (after ChromaDB setup) ---
 load_dotenv() # Load variables from .env file
 GEMINI_API_KEY = os.getenv("GOOGLE_API_KEY")
 if not GEMINI_API_KEY:
@@ -227,13 +226,6 @@ else:
         print("Gemini API configured.")
     except Exception as e:
         print(f"Error configuring Gemini API: {e}")
-
-# --- ADD THIS NEW ENDPOINT AT THE END OF main.py ---
-
-# ------------------------------------------
-# --- NEW AI SEARCH ENDPOINT (CORRECTED) ---
-# ------------------------------------------
-# --- REPLACE THE ENTIRE ai_search_chats FUNCTION WITH THIS ---
 
 @app.post("/api/ai_search")
 async def ai_search_chats(query_request: QueryRequest):
