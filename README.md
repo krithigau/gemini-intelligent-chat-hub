@@ -6,7 +6,7 @@ The Gemini Intelligent Knowledge Hub is a full-stack application designed to sol
 
 This system demonstrates the implementation of a **Retrieval-Augmented Generation (RAG)** pipeline in a production-style, multi-service architecture.
 
-## 🛠️ Technical Architecture
+##  Technical Architecture
 
 The project is split into two primary services:
 
@@ -21,7 +21,7 @@ The project is split into two primary services:
     * **Vector Store:** ChromaDB (local persistence) for storing high-dimensional vector embeddings.
 * **Intelligence:** Google Gemini API (`gemini-pro` / `gemini-1.5-flash`).
 
-## ✨ Key Features & Achieved Milestones
+##  Key Features & Achieved Milestones
 
 | Feature | Description | Achievement Demonstrated |
 | :--- | :--- | :--- |
@@ -31,7 +31,7 @@ The project is split into two primary services:
 | **Data Integrity** | Implements a **duplicate checking** mechanism in the backend (`/save_chat`) based on URL before processing, ensuring data hygiene in the database. | Practical application of database query optimization and integrity checks. |
 | **Multi-View UI** | Developed a clear, organized popup with **Collections** (folders) functionality, allowing users to browse saved chats and scope their AI searches. | Proficiency in modular frontend design and event handling. |
 
-## 🚧 Development Hurdles & Problem Solving
+##  Development Hurdles & Problem Solving
 
 This project involved overcoming several significant real-world development challenges:
 
